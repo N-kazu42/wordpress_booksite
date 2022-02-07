@@ -25,6 +25,10 @@ function get_main_title()
         return get_the_title();
     elseif (is_category()) :
         return single_cat_title();
+    elseif (is_search()) :
+        return 'サイト内検索結果';
+    elseif (is_404()) :
+        return 'ページが見つかりません';
     endif;
 }
 //子ページを取得する関数
@@ -74,8 +78,10 @@ function get_main_image()
         return get_the_post_thumbnail($post->ID, 'detail');
     elseif (is_category('news') || is_singular('post')) :
         return '<img src="' . get_template_directory_uri() . '/assets/images/bg-page-news.jpg" />';
+    elseif (is_search() || is_404()) :
+        return '<img src="' . get_template_directory_uri() . '/assets/images/bg-page-search.jpg" />';
     else :
-        return '<img src="' . get_template_directory_uri() . '/assets/images/bg-page-dummy.jpg" />';
+        return '<img src="' . get_template_directory_uri() . '/assets/images/bg-page-dummy.png" />';
     endif;
 }
 //特定の記事を抽出する関数
@@ -95,3 +101,44 @@ function get_specific_posts($post_type, $taxonomy = null, $term = null, $number 
     $specific_posts = new WP_Query($args);
     return $specific_posts;
 }
+
+//抜粋文の最後に付く文字列を変更
+function cms_excerpt_more(){
+    return '...';
+}
+add_filter('excerpt_more','cms_excerpt_more');
+
+//文字数を110文字から80文字に変更
+function cms_excerpt_lenght(){
+    return 80;
+}
+add_filter('excerpt_mblength','cms_excerpt_lenght');
+
+//抜粋機能を固定ページに使えるように設定
+add_post_type_support('page','excerpt');
+
+function get_flexible_excerpt($number){
+    $value = get_the_excerpt();  //抜粋文を取得
+    $value = wp_trim_words($value,$number,'...'); //抜粋文字、文字数、最後の文字
+    return $value;
+}
+
+//get_th_excerpt()で取得する文字列に改行タグを挿入する
+function apply_excerpt_br($value){
+    return nl2br ($value);
+}
+add_filter('get_the_excerpt','apply_excerpt_br');
+
+//ウィジェット機能を有効化
+function theme_widgets_init(){
+    register_sidebar( array(
+        'name' =>'サイドバーウィジェットエリア', //ウィジェットエリアの名前
+        'id' => 'primary-widget-area', //ウィジェットエリアのID
+        'description' => '固定ページのサイドバー', //ウィジェットエリアの説明　管理画面で表示
+        'before_widget' => '<aside class="side-inner">', //
+        'after_widget' =>'</aside>', //
+        'before_title' => '<h4 class="title"', //
+        'after_title' => '</h4>', //
+    ));
+}
+add_action('widgets_init','theme_widgets_init');

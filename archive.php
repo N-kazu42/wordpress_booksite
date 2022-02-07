@@ -12,6 +12,16 @@
             endwhile;
           endif; ?>
         </div>
+        <!-- ページャーを表示させる -->
+        <div class="pager">
+          <ul class="pagerList">
+          <?php
+            if (function_exists('page_navi')):
+              page_navi();
+            endif;
+            ?>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
