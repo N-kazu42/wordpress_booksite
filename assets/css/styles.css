@@ -3766,7 +3766,7 @@ input[type="submit"]::after {
 .lead-inner > p {
     padding-top: 6.7%;
     font-size: 1.8rem;
-    text-align: center;
+    /* text-align: center; */
     line-height: 2;
     letter-spacing: 0.25em;	
 }
@@ -3776,7 +3776,7 @@ input[type="submit"]::after {
     -webkit-flex-grow: 1;
     -ms-flex-positive: 1;
     flex-grow: 1;
-    margin-top: 22px;
+    margin-top: 10px;
     font-size: 1.6rem;
 }
 
@@ -4253,3 +4253,4 @@ input[type="submit"]::after {
 		background-image: url('../images/svg/icon-next-short.svg');
 	}
 }
+

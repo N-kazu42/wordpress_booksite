@@ -1,13 +1,17 @@
 <article class="article-card">
-    <a href="<?php the_permalink(); ?>" class="card-link">
-<div class="image"><?php the_post_thumbnail('contribution'); ?></div>
-<div class="body">
-    <time ><?php the_time('Y/m/d'); ?></time>
-    <p class="title"><?php the_title(); ?></p>
-    <p class="excerpt"><?php echo the_excerpt(); ?></p>
-    <div class="buttonBox">
-        <button class="seeDetail" type="button">MORE</button>
-    </div>
-</div>
-</a>
+    <a href="<?php echo get_term_link($term); ?>" class="card-link">
+        <div class="image">
+            <?php
+            $image_id = get_field('event_image', $term->taxonomy . '_' . $term->term_id);
+            echo wp_get_attachment_image($image_id, 'contribution');
+            ?>
+        </div>
+        <div class="body">
+            <p class="title"><?php echo $term->name; ?></p>
+            <p class="excerpt"><?php echo $term->description; ?></p>
+            <div class="buttonBox">
+                <button class="seeDetail" type="button">MORE</button>
+            </div>
+        </div>
+    </a>
 </article>

@@ -28,7 +28,8 @@
               </div>
               <div class="shop-body">
                 <p class="name"><?php the_title(); ?></p>
-                <p class="location"></p>
+                <p class="location"> <?php the_field('location'); ?></p>
+              <!--カスタムフィールドのlocationを取得 --></p>
                 <div class="buttonBox">
                   <button type="button" class="seeDetail">MORE</button>
                 </div>
@@ -55,6 +56,7 @@
     setup_postdata($post); //$postをグローバルで使えるようにする
     $contribution_title = get_the_title(); //あとでタイトルが必要なので取得しておく
     ?>
+    
     <span class="section-title-en">Regional Contribution</span>
     <h2 class="section-title"><?php the_title(); ?></h2>
     <p class="section-lead"><?php echo get_the_excerpt(); ?></p>
@@ -64,7 +66,7 @@
     <div class="articles">
 
       <?php
-      $contribution_pages = get_child_pages(3, $contribution_obj->ID); //変数からidを取得して子ページを表示していく
+      $contribution_pages = get_specific_posts('daily_contribution','event','',3); //変数からidを取得して子ページを表示していく
       if ($contribution_pages->have_posts()) : //子ページの固定ページがあるか判断
         while ($contribution_pages->have_posts()) : $contribution_pages->the_post();
       ?>
